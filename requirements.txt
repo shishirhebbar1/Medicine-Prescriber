@@ -3,7 +3,7 @@ pandas
 numpy
 psycopg2-binary
 tensorflow
-tensorflow.keras.preprocessing.sequence
+tensorflow
 pickle
 re
 requests
