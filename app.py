@@ -299,7 +299,22 @@ def clean_text(text):
 
 # Load the model
 model = tf.keras.models.load_model('my_model.h5')
+# Get the model configuration
+config = model.get_config()
 
+# Save configuration to a JSON file
+with open('model_config.json', 'w') as f:
+    json.dump(config, f, indent=4)
+
+# Load the modified configuration
+with open('model_config.json', 'r') as f:
+    updated_config = json.load(f)
+
+# Recreate the model
+model = model_from_config(updated_config)
+
+# Save the updated model
+model.save('updated_model.h5')
 # Load additional preprocessing objects
 with open('tokenizer.pkl', 'rb') as f:
     tokenizer = pickle.load(f)
