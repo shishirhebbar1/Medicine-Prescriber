@@ -298,7 +298,7 @@ def clean_text(text):
         raise ValueError("Input must be a string or a list of strings")
 
 # Load the model
-model = tf.keras.models.load_model('my_model.h5')
+model = load_model('my_model.h5')
 # Get the model configuration
 config = model.get_config()
 
