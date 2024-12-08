@@ -299,20 +299,28 @@ def clean_text(text):
         raise ValueError("Input must be a string or a list of strings")
 
 # Load the model
-model = load_model('my_model.h5')
+# Load the model configuration from the H5 file
+model = tf.keras.models.load_model('my_model.h5', compile=False)
+
 # Get the model configuration
-# Load the configuration JSON file
-with open("model_config.json", "r") as f:
-    config = json.load(f)
+config = model.get_config()
 
-# Create the model from the JSON configuration
-model = model_from_json(json.dumps(config))
+# Iterate through layers and remove "time_major" if it exists
+for layer in config['layers']:
+    if layer['class_name'] == 'LSTM' and 'time_major' in layer['config']:
+        del layer['config']['time_major']
 
-# Compile the model
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+# Save the updated configuration to a JSON file
+with open('updated_model_config.json', 'w') as f:
+    json.dump(config, f)
+
+with open('updated_model_config.json', 'r') as f:
+    updated_config = json.load(f)
+
+model = model_from_json(json.dumps(updated_config))
 
 # Save the updated model
-model.save("updated_model.h5")
+model.save('updated_model.h5')
 # Load additional preprocessing objects
 with open('tokenizer.pkl', 'rb') as f:
     tokenizer = pickle.load(f)
