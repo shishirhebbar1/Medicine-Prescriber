@@ -11,10 +11,10 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import re
-
+from tensorflow.keras.models import load_model
 import psycopg2
 import requests
-
+from tensorflow.keras.models import model_from_config
 mapping = {
     'Colds & Flu': 'colds  flu',
     'Eczema': 'eczema',
