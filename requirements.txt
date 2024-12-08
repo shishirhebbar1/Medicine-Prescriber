@@ -3,6 +3,5 @@ pandas
 numpy
 psycopg2-binary
 tensorflow
-pickle
 re
 requests
