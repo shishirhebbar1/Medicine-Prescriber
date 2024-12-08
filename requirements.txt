@@ -3,5 +3,4 @@ pandas
 numpy
 psycopg2-binary
 tensorflow
-re
 requests
