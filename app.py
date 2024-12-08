@@ -14,7 +14,7 @@ import re
 from tensorflow.keras.models import load_model
 import psycopg2
 import requests
-from tensorflow.keras.saving import serialization_lib
+
 from tensorflow.keras.models import Sequential, model_from_json
 mapping = {
     'Colds & Flu': 'colds  flu',
@@ -301,10 +301,18 @@ def clean_text(text):
 # Load the model
 model = load_model('my_model.h5')
 # Get the model configuration
-model = serialization_lib.deserialize_keras_object(config)
+# Load the configuration JSON file
+with open("model_config.json", "r") as f:
+    config = json.load(f)
 
-# Create the model from JSON configuration
+# Create the model from the JSON configuration
 model = model_from_json(json.dumps(config))
+
+# Compile the model
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Save the updated model
+model.save("updated_model.h5")
 # Load additional preprocessing objects
 with open('tokenizer.pkl', 'rb') as f:
     tokenizer = pickle.load(f)
